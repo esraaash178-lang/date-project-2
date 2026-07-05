@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You?</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- الصفحة الأولى: السؤال الأساسي -->
+    <div id="page1" class="card">
+        <div class="avatar">🐶</div>
+        <h2>🌸 Will you go on a date with me? 🌸</h2>
+        <div class="btn-group">
+            <button id="yesBtn">YES ♥</button>
+            <button id="noBtn">No 💔</button>
+        </div>
+    </div>
+
+    <!-- الصفحة الثانية: اختيار الوقت والتاريخ -->
+    <div id="page2" class="card hidden">
+        <h2>🗓️ So... when are you free?</h2>
+        <div class="input-group">
+            <label>Pick a Day 📆</label>
+            <input type="date" id="datePicker">
+        </div>
+        <div class="input-group">
+            <label>What Time? ⏰</label>
+            <input type="time" id="timePicker">
+        </div>
+        <button id="nextBtn1">Set the date! ♥</button>
+    </div>
+
+    <!-- الصفحة الثالثة: اختيار الأكل -->
+    <div id="page3" class="card hidden">
+        <h2>🍕 What are we feeling? 🍣</h2>
+        <p>pick your vibe</p>
+        <div class="food-grid">
+            <div class="food-item" onclick="selectFood(this)">🍕 Pizza</div>
+            <div class="food-item" onclick="selectFood(this)">🍣 Sushi</div>
+            <div class="food-item" onclick="selectFood(this)">🍔 Burgers</div>
+            <div class="food-item" onclick="selectFood(this)">🍝 Pasta</div>
+        </div>
+        <button id="nextBtn2">Done! ✨</button>
+    </div>
+
+    <!-- الصفحة الأخيرة: رسالة التأكيد -->
+    <div id="page4" class="card hidden">
+        <h2>🚗 Glad you didn't say no. Be ready, I'm coming to get you!</h2>
+        <p class="ps">P.S. normal people text. I made a website for you, no big deal. ♥ ♥ ♥ ♥ ♥</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
