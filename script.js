@@ -66,29 +66,40 @@ nextBtn2.addEventListener('click', () => {
     page4.classList.remove('hidden');
 });
 
-// الكود السري ليكي إنتِ عشان تقرأ الإجابات من السحابة
-window.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('view') === 'answers') {
-        page1.classList.add('hidden');
-        if(adminPage) adminPage.classList.remove('hidden');
-        
-        // جلب البيانات المحفوظة أونلاين من السحابة
-        fetch(databaseURL)
-        .then(res => res.json())
-        .then(savedData => {
-            const adminDetails = document.getElementById('adminDetails');
-            if(savedData && adminDetails) {
-                adminDetails.innerHTML = `
-                    📅 اليوم المختار: ${savedData.date || 'لم يحدد'} <br>
-                    ⏰ الوقت المختار: ${savedData.time || 'لم يحدد'} <br>
-                    🍕 الأكل المفضل: ${savedData.food || 'لم يحدد'}
-                `;
+// الكود المطور لقراءة الإجابات بدون أخطاء
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('view') === 'answers') {
+    // إخفاء كل الصفحات وإظهار صفحة الأدمن
+    document.querySelectorAll('.card').forEach(card => card.classList.add('hidden'));
+    const adminPage = document.getElementById('adminPage');
+    const adminDetails = document.getElementById('adminDetails');
+    
+    if (adminPage) adminPage.classList.remove('hidden');
+
+    fetch('https://kvdb.io/bv2zwCd5LtzL8q9Rk92g5/answers')
+        .then(response => {
+            if (response.status === 404) {
+                return null; // لو مفيش إجابات لسه متسجلة
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (!data) {
+                if (adminDetails) {
+                    adminDetails.innerHTML = "لسه مفيش إجابات اتسجلت يا إسراء! ☁️<br><br>جربي ادخلي على اللينك العادي الأول واختاري (يوم ووقت وأكلة) ودوسي Done عشان البيانات تتخزن.";
+                }
+            } else {
+                if (adminDetails) {
+                    adminDetails.innerHTML = `
+                        📅 <b>اليوم المختار:</b> ${data.day || 'لم يحدد'}<br>
+                        ⏰ <b>الوقت المختار:</b> ${data.time || 'لم يحدد'}<br>
+                        🍔 <b>الأكلة المختارة:</b> ${data.food || 'لم يحدد'}
+                    `;
+                }
             }
         })
-        .catch(() => {
-            const adminDetails = document.getElementById('adminDetails');
-            if(adminDetails) adminDetails.innerHTML = "❌ لسه مفيش إجابات اتسجلت أونلاين حتى الآن.";
+        .catch(error => {
+            console.error('Error:', error);
+            if (adminDetails) adminDetails.innerText = "حصل مشكلة أثناء الاتصال بالسحابة!";
         });
-    }
-});
+}
